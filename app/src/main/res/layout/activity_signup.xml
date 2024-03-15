@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/lavender2"
+    tools:context=".SignupActivity">
+
+    <ImageView
+        android:id="@+id/imageViewLogo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/sda"
+        android:layout_marginTop="3dp"
+        android:contentDescription="Logo"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp"
+            android:background="@drawable/customedit">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create an Account"
+                android:id="@+id/loginText"
+                android:textSize="36sp"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:textColor="@color/Lavender"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/fullname"
+                android:background="@drawable/customedit"
+                android:layout_marginTop="40dp"
+                android:padding="8dp"
+                android:hint="Full Name"
+                android:drawableLeft="@drawable/baseline_person_24"
+                android:textColor="@color/black"
+                android:drawablePadding="8dp"/>
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/email"
+                android:background="@drawable/customedit"
+                android:layout_marginTop="20dp"
+                android:inputType="textEmailAddress"
+                android:padding="8dp"
+                android:hint="Email Address"
+                android:drawableLeft="@drawable/baseline_email_24"
+                android:textColor="@color/black"
+                android:drawablePadding="8dp"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/churchcode"
+                android:background="@drawable/customedit"
+                android:layout_marginTop="20dp"
+                android:inputType="textEmailAddress"
+                android:padding="8dp"
+                android:hint="Enter Church Code"
+                android:drawableLeft="@drawable/baseline_church_24"
+                android:textColor="@color/black"
+                android:drawablePadding="8dp"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/password"
+                android:background="@drawable/customedit"
+                android:layout_marginTop="20dp"
+                android:inputType="textPassword"
+                android:padding="8dp"
+                android:hint="password"
+                android:drawableLeft="@drawable/baseline_lock_24"
+                android:textColor="@color/black"
+                android:drawablePadding="8dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:id="@+id/confpassword"
+                android:background="@drawable/customedit"
+                android:layout_marginTop="20dp"
+                android:inputType="textPassword"
+                android:padding="8dp"
+                android:hint="confirm password"
+                android:drawableLeft="@drawable/baseline_lock_24"
+                android:textColor="@color/black"
+                android:drawablePadding="8dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Signup"
+                android:id="@+id/signupButton"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/Lavender"
+                app:cornerRadius = "20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:dividerPadding="20dp">
+
+
+                <TextView
+                    android:id="@+id/alreadybtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Already have an account?"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Lavender"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

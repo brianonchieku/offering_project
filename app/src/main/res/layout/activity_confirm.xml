@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ConfirmActivity">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/homeedit"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tithes and Offerings"
+        android:textSize="40sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="-130dp"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To: "
+            android:textSize="20sp"
+            android:paddingEnd="10dp"/>
+        <TextView
+            android:id="@+id/tochurch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="30dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="For: "
+            android:textSize="20sp"
+            android:paddingEnd="10dp"/>
+        <TextView
+            android:id="@+id/foruser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="contribution type"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="50dp">
+
+        <TextView
+            android:id="@+id/titheview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="30sp"/>
+        <TextView
+            android:id="@+id/offeringview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="30sp"/>
+        <TextView
+            android:id="@+id/campmeetingview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="30sp"/>
+        <TextView
+            android:id="@+id/thirteenthview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="30sp"/>
+        <TextView
+            android:id="@+id/conferenceview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="30sp"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="input number to initiate payment: "
+        android:textSize="20sp"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"/>
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:hint="     254....."
+        android:inputType="phone"
+        android:layout_marginStart="40dp"/>
+    <Button
+        android:id="@+id/submitbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="submit"
+        android:textSize="15sp"
+        android:layout_gravity="right"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/Lavender"/>
+
+</LinearLayout>
