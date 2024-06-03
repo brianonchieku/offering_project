@@ -2,11 +2,20 @@ package com.example.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.telecom.Call
 import android.view.View
 import android.widget.TextView
+import com.google.android.gms.common.api.Response
 import com.google.firebase.auth.FirebaseAuth
+import retrofit2.Retrofit
+import javax.security.auth.callback.Callback
+
+
 
 class ConfirmActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confirm)
@@ -19,6 +28,10 @@ class ConfirmActivity : AppCompatActivity() {
         val campmeetingview: TextView =findViewById(R.id.campmeetingview)
         val thirteenthview: TextView =findViewById(R.id.thirteenthview)
         val conferenceview: TextView =findViewById(R.id.conferenceview)
+        val totalview: TextView =findViewById(R.id.totalview)
+        val phoneno: TextView =findViewById(R.id.phonenumber)
+
+
 
         // Retrieve the church name from the temporaryChurchId passed from the previous activity
         val churchName = intent.getStringExtra("TEMP_CHURCH_NAME")
@@ -35,52 +48,62 @@ class ConfirmActivity : AppCompatActivity() {
         foruser.text= "$userName"
         tochurch.text="$churchName"
 
-        val tithe = intent.getStringExtra("tithe")
-        val titheAmount = intent.getIntExtra("titheAmount", 0)
+        val titheAmount = intent.getIntExtra("Tithe", 0)
+        val combinedOfferingAmount = intent.getIntExtra("combinedOffering", 0)
+        val  campMeetingAmount = intent.getIntExtra("campMeeting", 0)
+        val thirteenthSabbathAmount = intent.getIntExtra("thirteenthSabbath", 0)
+        val conferenceDevelopmentAmount = intent.getIntExtra("conferenceDevelopment", 0)
+        val totalAmount = intent.getIntExtra("total", 0)
+
+
+
+        // Set the retrieved values in the TextViews if they are greater than zero
+        val titheValueTextView = findViewById<TextView>(R.id.titheview)
         if (titheAmount > 0) {
-            // Display titheAmount
-            titheview.text="$tithe: $$titheAmount"
-        }else{
-            titheview.visibility = View.GONE
+            titheValueTextView.text = "Tithe: $titheAmount"
+        } else {
+            titheValueTextView.visibility = View.GONE // Hide the TextView if value is zero
         }
 
-        val combinedOffering = intent.getStringExtra("combinedOffering")
-        val combinedOfferingAmount = intent.getIntExtra("combinedOfferingAmount", 0)
+        val combinedOfferingValueTextView = findViewById<TextView>(R.id.offeringview)
         if (combinedOfferingAmount > 0) {
-            // Display combinedOfferingAmount
-            offeriingview.text="$combinedOffering: $$combinedOfferingAmount"
-        }else{
-            offeriingview.visibility = View.GONE
+            combinedOfferingValueTextView.text = "Combined Offering: $combinedOfferingAmount"
+        } else {
+            combinedOfferingValueTextView.visibility = View.GONE // Hide the TextView if value is zero
         }
 
-        val campMeeting = intent.getStringExtra("campMeeting")
-        val campMeetingAmount = intent.getIntExtra("campMeetingAmount", 0)
+        val campMeetingValueTextView = findViewById<TextView>(R.id.campmeetingview)
         if (campMeetingAmount > 0) {
-            // Display combinedOfferingAmount
-            campmeetingview.text="$campMeeting: $$campMeetingAmount"
-        }else{
-            campmeetingview.visibility = View.GONE
+            campMeetingValueTextView.text = "Camp Meeting: $campMeetingAmount"
+        } else {
+            campMeetingValueTextView.visibility = View.GONE // Hide the TextView if value is zero
         }
 
-        val thirteenthSabbath = intent.getStringExtra("thirteenthSabbath")
-        val thirteenthSabbathAmount = intent.getIntExtra("thirteenthSabbathAmount", 0)
+        val thirteenthSabbathValueTextView = findViewById<TextView>(R.id.thirteenthview)
         if (thirteenthSabbathAmount > 0) {
-            // Display combinedOfferingAmount
-            thirteenthview.text="$thirteenthSabbath: $$thirteenthSabbathAmount"
-        }else{
-            thirteenthview.visibility = View.GONE
+            thirteenthSabbathValueTextView.text = "Thirteenth Sabbath: $thirteenthSabbathAmount"
+        } else {
+            thirteenthSabbathValueTextView.visibility = View.GONE // Hide the TextView if value is zero
         }
 
-        val conference = intent.getStringExtra("conference")
-        val conferenceFundAmount = intent.getIntExtra("conferenceFundAmount", 0)
-        if (conferenceFundAmount > 0) {
-            // Display combinedOfferingAmount
-            conferenceview.text="$conference: $$conferenceFundAmount"
+        val conferenceDevelopmentValueTextView = findViewById<TextView>(R.id.conferenceview)
+        if (conferenceDevelopmentAmount > 0) {
+            conferenceDevelopmentValueTextView.text = "Conference Development: $conferenceDevelopmentAmount"
+        } else {
+            conferenceDevelopmentValueTextView.visibility = View.GONE // Hide the TextView if value is zero
+        }
+
+        val totalValueTextView = findViewById<TextView>(R.id.totalview)
+        if (totalAmount > 0) {
+            totalValueTextView.text = "total: $totalAmount"
+        } else {
+            totalValueTextView.visibility = View.GONE // Hide the TextView if value is zero
         }
 
 
+        btn.setOnClickListener {
 
-
-
+        }
     }
+
 }

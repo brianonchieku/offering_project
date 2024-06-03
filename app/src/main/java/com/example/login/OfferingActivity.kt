@@ -1,145 +1,80 @@
 package com.example.login
 
-import android.app.AlertDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class OfferingActivity : AppCompatActivity() {
 
     private lateinit var radioGroup: RadioGroup
+    private lateinit var spinner: Spinner
+    private lateinit var proceedButton: Button
     private lateinit var firestore: FirebaseFirestore
     private lateinit var firebaseAuth: FirebaseAuth
-    // Variable to hold the temporarily selected church ID
+    private var homeChurch: String? = null
     private var temporaryChurchId: String? = null
-
-    companion object {
-        // Variable to hold the selected home church
-        var selectedHomeChurch: String? = null
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offering)
 
         radioGroup = findViewById(R.id.radioGroup)
+        spinner = findViewById(R.id.spinner)
+        proceedButton = findViewById(R.id.proceedbtn1)
         firestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
 
-        // Find the spinner view
-        val spinner = findViewById<Spinner>(R.id.spinner)
-        spinner.contentDescription="choose church"
 
-        populateSpinner(spinner)
+        // Set the first radio button as checked and disable the spinner
+        radioGroup.check(R.id.option1)
+        findViewById<Spinner>(R.id.spinner).isEnabled = false
+
+        getHomeChurch()
+        spinner.isEnabled = false
 
 
-        // Button click listener for the "Proceed" button
-        val proceedButton: Button = findViewById(R.id.proceedbtn1)
-        proceedButton.setOnClickListener {
-            // Display confirmation dialog when the "Proceed" button is clicked
-            showConfirmationDialog()
-        }
 
-        // Check if a home church is selected from the radio group
-        if (selectedHomeChurch != null) {
-            // Use the selected home church in the confirmation dialog
-            temporaryChurchId = selectedHomeChurch
-            selectedHomeChurch = null // Reset selected home church after using it
-        }
+        // Set up the spinner with church data
+        populateSpinner()
 
-        // Set a listener for the radio group
-        radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            // Get the selected radio button
-            val radioButton = findViewById<RadioButton>(checkedId)
-
-            // Check which radio button is selected
-            when (radioButton.id) {
+        // Set the listener for the radio group
+        radioGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
                 R.id.option1 -> {
-                    // Disable the spinner when the first option is selected
-                    spinner.isEnabled = false
-                    // If the first option is selected, retrieve and display the church name
-                    retrieveUserChurch()
+                    // Handle the first radio button (Home church)
+                    getHomeChurch()
+                    spinner.isEnabled = false // Disable spinner
                 }
                 R.id.option2 -> {
-                    // If the second option is selected, handle accordingly
-                    spinner.isEnabled = true
+                    // Handle the second radio button (Host church)
+                    homeChurch = null // Set homeChurch to null
+                    spinner.isEnabled = true // Enable spinner
+                    spinner.setSelection(0) // Reset spinner selection to no default value
                 }
             }
         }
-    }
 
-    private fun retrieveUserChurch() {
-        // Get the current user's UID
-        val userId = firebaseAuth.currentUser?.uid
-
-        if (userId != null) {
-            // Query Firestore to get the user's document
-            firestore.collection("users").document(userId)
-                .get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        // Get the church code from the user's document
-                        val churchCode = document.getString("Church Code")
-                        // Retrieve and display the associated church name
-                        retrieveChurchName(churchCode)
-                    } else {
-                        // User document does not exist
-                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    // Error retrieving user document
-                    Toast.makeText(
-                        this,
-                        "Error retrieving user data: ${exception.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        // Set click listener for the proceed button
+        proceedButton.setOnClickListener {
+            // Proceed with the selected church (homeChurch or spinner)
+            val selectedChurch = homeChurch ?: temporaryChurchId
+            // Your code to proceed with the selected church goes here
+            showConfirmationDialog(selectedChurch)
         }
     }
 
-    private fun retrieveChurchName(churchCode: String?) {
-        if (churchCode != null) {
-            // Query Firestore to get the church name corresponding to the church code
-            firestore.collection("church codes").document(churchCode)
-                .get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        val churchName = document.getString("church name")
-                        val churchInfo= "$churchCode - $churchName"
-                        selectedHomeChurch = churchInfo // Assign the retrieved church name to selectedHomeChurch variable
-                        // Display toast message with the retrieved church name
-                        Toast.makeText(
-                            this,
-                            "Tithing records will be recorded for $churchName",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else {
-                        // Church code document does not exist
-                        Toast.makeText(this, "Invalid church code", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    // Error retrieving church code document
-                    Toast.makeText(
-                        this,
-                        "Error retrieving church information: ${exception.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-        }
-    }
-
-    private fun populateSpinner(spinner: Spinner) {
+    private fun populateSpinner() {
         // Query Firestore to get the list of church codes and names
         firestore.collection("church codes")
             .get()
             .addOnSuccessListener { documents ->
                 val churchList = mutableListOf<String>()
+                churchList.add("Select church...") // Add default prompt to spinner
                 for (document in documents) {
                     val churchCode = document.id
                     val churchName = document.getString("church name")
@@ -155,14 +90,17 @@ class OfferingActivity : AppCompatActivity() {
                 // Set a listener for the spinner
                 spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                        // Retrieve the selected church ID
-                        val selectedChurchId = churchList[position]
-                        // Update temporaryChurchId with the selected church ID
-                        temporaryChurchId = selectedChurchId
+                        if (position == 0) {
+                            temporaryChurchId = null // Set temporaryChurchId to null when no selection
+                        } else {
+                            // Retrieve the selected church ID
+                            temporaryChurchId = churchList[position]
+                        }
                     }
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {
-                        // Do nothing if nothing is selected
+                        // Set temporaryChurchId to null when nothing is selected
+                        temporaryChurchId = null
                     }
                 }
             }
@@ -176,30 +114,58 @@ class OfferingActivity : AppCompatActivity() {
             }
     }
 
-    // Function to display a confirmation dialog
-    private fun showConfirmationDialog() {
-        val selectedChurch = temporaryChurchId ?: return
+    private fun getHomeChurch() {
+        // Retrieve the current user's UID
+        val userId = firebaseAuth.currentUser?.uid
 
-        // Create an AlertDialog Builder
+        if (userId != null) {
+            // Query Firestore to get the user's document
+            firestore.collection("users").document(userId)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        // Get the church code from the user's document
+                        homeChurch = document.getString("church code")
+                    } else {
+                        // User document does not exist
+                        Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Error retrieving user document
+                    Toast.makeText(
+                        this,
+                        "Error retrieving user data: ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        } else {
+            // User is not logged in
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showConfirmationDialog(selectedChurch: String?) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Confirm Church Selection")
         builder.setMessage("Are you sure you want to contribute to $selectedChurch?")
-        builder.setPositiveButton("Confirm") { dialog, _ ->
-            // User confirmed selection, proceed with contributions
+
+        builder.setPositiveButton("Proceed") { dialog, _ ->
+            // Proceed with the selected church
+            Toast.makeText(this, "Selected church: $selectedChurch", Toast.LENGTH_SHORT).show()
+            // Add your code here to proceed with the selected church
             val intent= Intent(this,OfferingActivity2::class.java)
-            intent.putExtra("TEMP_CHURCH_ID", temporaryChurchId)
+            intent.putExtra("TEMP_CHURCH_ID", selectedChurch)
             startActivity(intent)
             dialog.dismiss()
+
         }
+
         builder.setNegativeButton("Cancel") { dialog, _ ->
-            // User canceled selection, do nothing
             dialog.dismiss()
         }
-        // Create and show the AlertDialog
+
         val dialog = builder.create()
         dialog.show()
     }
 }
-
-
-

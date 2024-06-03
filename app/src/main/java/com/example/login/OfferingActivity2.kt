@@ -3,25 +3,37 @@ package com.example.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 
 class OfferingActivity2 : AppCompatActivity() {
+
+    private lateinit var titheEditText: EditText
+    private lateinit var combinedOfferingEditText: EditText
+    private lateinit var campMeetingEditText: EditText
+    private lateinit var thirteenthSabbathEditText: EditText
+    private lateinit var conferenceDevelopmentEditText: EditText
+    private lateinit var mashinaniEditText: EditText
+    private lateinit var totalTextView: TextView
+    private lateinit var confirmButton: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_offering2)
 
         val toEditText: TextView=findViewById(R.id.toedittext)
         val forEditText: TextView = findViewById(R.id.foredittext)
-        val titheEditText = findViewById<EditText>(R.id.tithe)
-        val offeringEditText = findViewById<EditText>(R.id.combinedoffering)
-        val campEditText = findViewById<EditText>(R.id.campmeeting)
-        val thirteenthEditText = findViewById<EditText>(R.id.thirteenthsabbath)
-        val conferenceEditText = findViewById<EditText>(R.id.confrencedevelopment)
-        val totalEditText = findViewById<TextView>(R.id.total)
-        val confirmbtn= findViewById<Button>(R.id.confirmbtn)
+        titheEditText = findViewById(R.id.tithe)
+        combinedOfferingEditText = findViewById(R.id.combinedoffering)
+        campMeetingEditText = findViewById(R.id.campmeeting)
+        thirteenthSabbathEditText = findViewById(R.id.thirteenthsabbath)
+        conferenceDevelopmentEditText = findViewById(R.id.confrencedevelopment)
+        totalTextView = findViewById(R.id.total)
+        confirmButton = findViewById(R.id.confirmbtn)
+
 
         // Retrieve the church name from the temporaryChurchId passed from the previous activity
         val temporaryChurchId = intent.getStringExtra("TEMP_CHURCH_ID")
@@ -42,52 +54,77 @@ class OfferingActivity2 : AppCompatActivity() {
         forEditText.text= "$userName"
         toEditText.text="$churchName"
 
-// Set the default value to zero
-        titheEditText.setText("0")
-        offeringEditText.setText("0")
-        campEditText.setText("0")
-        thirteenthEditText.setText("0")
-        conferenceEditText.setText("0")
-        totalEditText.text = "0"
+        updateTotal()
 
-        // Retrieve values from EditText fields
-        val tithe = titheEditText.text.toString().toIntOrNull() ?: 0
-        val combinedOffering = offeringEditText.text.toString().toIntOrNull() ?: 0
-        val campMeeting = campEditText.text.toString().toIntOrNull() ?: 0
-        val thirteenthSabbath = thirteenthEditText.text.toString().toIntOrNull() ?: 0
-        val conferenceFund = conferenceEditText.text.toString().toIntOrNull() ?: 0
+        // Add text change listeners to EditText fields
+        titheEditText.addTextChangedListener(contributionTextWatcher)
+        combinedOfferingEditText.addTextChangedListener(contributionTextWatcher)
+        campMeetingEditText.addTextChangedListener(contributionTextWatcher)
+        thirteenthSabbathEditText.addTextChangedListener(contributionTextWatcher)
+        conferenceDevelopmentEditText.addTextChangedListener(contributionTextWatcher)
 
-// Calculate total
-        val total = tithe + combinedOffering + campMeeting + thirteenthSabbath + conferenceFund
+        confirmButton.setOnClickListener {
+            val intent = Intent(this, ConfirmActivity::class.java)
+            val churchName = toEditText.text.toString()
 
-// Set total to TextView
-        totalEditText.text = "Total: $total"
+            // Check if the tithe amount is greater than zero and pass it to the next activity
+            val titheAmount = titheEditText.text.toString().toIntOrNull()
+            if (titheAmount != null && titheAmount > 0) {
+                intent.putExtra("Tithe", titheAmount)
+            }
 
-        confirmbtn.setOnClickListener {
-            val intent= Intent(this,ConfirmActivity::class.java)
+            // Check if the combined offering amount is greater than zero and pass it
+            val combinedOfferingAmount = combinedOfferingEditText.text.toString().toIntOrNull()
+            if (combinedOfferingAmount != null && combinedOfferingAmount > 0) {
+                intent.putExtra("combinedOffering", combinedOfferingAmount)
+            }
+
+            // Check if the camp meeting amount is greater than zero and pass it
+            val campMeetingAmount = campMeetingEditText.text.toString().toIntOrNull()
+            if (campMeetingAmount != null && campMeetingAmount > 0) {
+                intent.putExtra("campMeeting", campMeetingAmount)
+            }
+
+            // Check if the thirteenth sabbath amount is greater than zero and pass it
+            val thirteenthSabbathAmount = thirteenthSabbathEditText.text.toString().toIntOrNull()
+            if (thirteenthSabbathAmount != null && thirteenthSabbathAmount > 0) {
+                intent.putExtra("thirteenthSabbath", thirteenthSabbathAmount)
+            }
+
+            // Check if the conference development amount is greater than zero and pass it
+            val conferenceDevelopmentAmount = conferenceDevelopmentEditText.text.toString().toIntOrNull()
+            if (conferenceDevelopmentAmount != null && conferenceDevelopmentAmount > 0) {
+                intent.putExtra("conferenceDevelopment", conferenceDevelopmentAmount)
+            }
+
+            val totalAmount = totalTextView.text.toString().toIntOrNull()
+            if (totalAmount != null && totalAmount > 0) {
+                intent.putExtra("total", totalAmount)
+            }
+
+            // Start the next activity with the collected data
             intent.putExtra("TEMP_CHURCH_NAME", churchName)
-            if (tithe > 0) {
-                intent.putExtra("Tithe", tithe)
-                intent.putExtra("titheAmount", tithe)
-            }
-            if (combinedOffering > 0) {
-                intent.putExtra("combinedOffering", combinedOffering)
-                intent.putExtra("combinedOfferingAmount", combinedOffering)
-            }
-            if (campMeeting > 0) {
-                intent.putExtra("campMeeting", campMeeting)
-                intent.putExtra("campMeetingAmount", campMeeting)
-            }
-            if (thirteenthSabbath > 0) {
-                intent.putExtra("thirteenthSabbath", thirteenthSabbath)
-                intent.putExtra("thirteenthSabbathAmount", thirteenthSabbath)
-            }
-            if (conferenceFund > 0) {
-                intent.putExtra("thirteenthSabbath", thirteenthSabbath)
-                intent.putExtra("conferenceDevelopmentAmount", conferenceFund)
-            }
             startActivity(intent)
         }
+    }
+    private val contributionTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+        override fun afterTextChanged(s: Editable?) {
+            // Update total whenever text changes in any of the EditText fields
+            updateTotal()
+        }
+    }
+    private fun updateTotal() {
+        val tithe = titheEditText.text.toString().toIntOrNull() ?: 0
+        val combinedOffering = combinedOfferingEditText.text.toString().toIntOrNull() ?: 0
+        val campMeeting = campMeetingEditText.text.toString().toIntOrNull() ?: 0
+        val thirteenthSabbath = thirteenthSabbathEditText.text.toString().toIntOrNull() ?: 0
+        val conferenceDevelopment = conferenceDevelopmentEditText.text.toString().toIntOrNull() ?: 0
+
+        val total = tithe + combinedOffering + campMeeting + thirteenthSabbath + conferenceDevelopment
+        totalTextView.text = total.toString()
     }
 }

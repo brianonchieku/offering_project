@@ -74,33 +74,46 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:textSize="30sp"/>
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
         <TextView
             android:id="@+id/offeringview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:textSize="30sp"/>
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
         <TextView
             android:id="@+id/campmeetingview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:textSize="30sp"/>
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
         <TextView
             android:id="@+id/thirteenthview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:textSize="30sp"/>
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
         <TextView
             android:id="@+id/conferenceview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:textSize="30sp"/>
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/totalview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_margin="10dp"
+            android:textSize="20sp"/>
     </LinearLayout>
     <TextView
+        android:id="@+id/phonenumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="input number to initiate payment: "
@@ -116,7 +129,7 @@
     <Button
         android:id="@+id/submitbtn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="49dp"
         android:text="submit"
         android:textSize="15sp"
         android:layout_gravity="right"

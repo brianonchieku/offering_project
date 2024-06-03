@@ -72,125 +72,97 @@
         android:orientation="horizontal"
         android:layout_marginTop="5dp"
         android:layout_marginStart="30dp">
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contribution type"
-            android:textSize="20sp"
-            android:paddingEnd="60dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Amount Offerd"
-            android:textSize="20dp"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="30dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tithe"
-            android:textSize="15sp"
-            android:paddingEnd="174dp"/>
-        <EditText
-            android:id="@+id/tithe"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contribution type"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Tithe"
+                android:textSize="15sp"
+               />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Combined Offerings"
+                android:textSize="15sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Camp Meeting"
+                android:textSize="15sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Thirteenth Sabbath"
+                android:textSize="15sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text="Conference Development"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total"
+                android:textSize="20sp" />
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:inputType="number"
-            android:hint="0"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="30dp">
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Combined Offerings"
-            android:textSize="15sp"
-            android:paddingEnd="75dp"/>
-        <EditText
-            android:id="@+id/combinedoffering"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:inputType="number"
-            android:hint="0"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="30dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Camp Meeting"
-            android:textSize="15sp"
-            android:paddingEnd="114dp"/>
-        <EditText
-            android:id="@+id/campmeeting"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:inputType="number"
-            android:hint="0"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="30dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thirteenth Sabbath"
-            android:textSize="15sp"
-            android:paddingEnd="80dp"/>
-        <EditText
-            android:id="@+id/thirteenthsabbath"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:inputType="number"
-            android:hint="0"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="30dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Confrence Development"
-            android:textSize="15sp"
-            android:paddingEnd="46dp"/>
-        <EditText
-            android:id="@+id/confrencedevelopment"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:inputType="number"
-            android:hint="0"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="30dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total"
-            android:textSize="20sp"
-            android:paddingEnd="168dp"/>
-        <TextView
-            android:id="@+id/total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" ="/>
+            android:orientation="vertical"
+            android:layout_marginStart="60dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amount Offered"
+                android:textSize="20dp"/>
+            <EditText
+                android:id="@+id/tithe"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:hint="0" />
+            <EditText
+                android:id="@+id/combinedoffering"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:hint="0"/>
+            <EditText
+                android:id="@+id/campmeeting"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:hint="0"/>
+            <EditText
+                android:id="@+id/thirteenthsabbath"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:hint="0"/>
+            <EditText
+                android:id="@+id/confrencedevelopment"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="number"
+                android:hint="0"/>
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textSize="20dp"
+                android:text="0"/>
+        </LinearLayout>
     </LinearLayout>
 
     <Button
@@ -201,5 +173,6 @@
         android:textSize="15sp"
         android:layout_gravity="right"
         android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/Lavender"/>
 </LinearLayout>
